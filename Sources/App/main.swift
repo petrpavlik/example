@@ -1,5 +1,6 @@
 import Vapor
 import HTTP
+import Console
 
 /**
     Droplets are service containers that make accessing
@@ -8,8 +9,8 @@ import HTTP
     or `drop.client()` to create a client for
     request data from other servers.
 */
-let drop = Droplet()
-
+let drop = Droplet(log: VaporLogger(forwardLog: ConsoleLogger(console: Terminal(arguments: CommandLine.arguments))))
+drop.log
 /**
     Vapor configuration files are located
     in the root directory of the project
@@ -22,6 +23,8 @@ let drop = Droplet()
     Read the docs to learn more
 */
 let _ = drop.config["app", "key"]?.string ?? ""
+
+//drop.log = VaporLogger(forwardLog: drop.log)
 
 /**
     This first route will return the welcome.html
