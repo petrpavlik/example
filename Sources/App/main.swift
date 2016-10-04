@@ -9,8 +9,8 @@ import Console
     or `drop.client()` to create a client for
     request data from other servers.
 */
-let drop = Droplet(log: VaporLogger(forwardLog: ConsoleLogger(console: Terminal(arguments: CommandLine.arguments))))
-drop.log
+let drop = Droplet(log: VaporLogger())
+
 /**
     Vapor configuration files are located
     in the root directory of the project

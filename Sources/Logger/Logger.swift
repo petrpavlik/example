@@ -7,7 +7,10 @@
 //
 
 import Foundation
+
+
 import Vapor
+import Console
 
 public class Logger {
     
@@ -39,7 +42,7 @@ public class Logger {
 
 class VaporLogger: Log {
     
-    init(forwardLog: Log) {
+    init(forwardLog: Log = ConsoleLogger(console: Terminal(arguments: CommandLine.arguments))) {
         self.forwardLog = forwardLog
     }
     
