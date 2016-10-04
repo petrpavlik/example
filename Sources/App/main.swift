@@ -2,6 +2,27 @@ import Vapor
 import HTTP
 import Console
 
+import Swiftl
+
+class SwiftlLogger: Log {
+    
+    init(forwardLog: Log = ConsoleLogger(console: Terminal(arguments: CommandLine.arguments))) {
+        self.forwardLog = forwardLog
+    }
+    
+    private let forwardLog: Log
+    
+    public var enabled: [LogLevel] = LogLevel.all
+    
+    func log(_ level: LogLevel, message: String, file: String, function: String, line: Int) {
+        forwardLog.log(level, message: message, file: file, function: function, line: line)
+        if enabled.contains(level) {
+            Swiftl.log(content: message, file: file, line: line, function: function)
+        }
+    }
+}
+
+
 /**
     Droplets are service containers that make accessing
     all of Vapor's features easy. Just call
@@ -9,7 +30,7 @@ import Console
     or `drop.client()` to create a client for
     request data from other servers.
 */
-let drop = Droplet(log: VaporLogger())
+let drop = Droplet(log: SwiftlLogger())
 
 /**
     Vapor configuration files are located
